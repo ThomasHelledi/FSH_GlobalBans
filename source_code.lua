@@ -48,12 +48,14 @@ AddEventHandler("onResourceStart", function(resourcename)
         MySQL.query("FSHGlobalBans/get_bans", {}, function(rows,affected)
             if #rows > 0 then
                 for k,v in pairs(rows) do
-                    if v.steamid ~= nil then
+                    if v.steamid ~= nil and v.steamid ~= "Ingen" then
                         bannedusers[v.steamid] = v.bangrund
-                    elseif v.gtatid ~= nil then
-                        bannedusers[v.gtatid] = v.bangrund
+                    end 
+                    if v.gtalicense ~= nil and v.gtalicense ~= "Ingen" then
+                        bannedusers[v.gtalicense] = v.bangrund
                     end
                 end
+                for k,v in pairs(bannedusers) do print (k,v) end
             else
                 print("----------\nFSH GLOBAL BANS - FEJL\nKUNNE IKKE HENTE GLOBAL BANS\n----------")
                 return
@@ -62,9 +64,6 @@ AddEventHandler("onResourceStart", function(resourcename)
         MySQL.query("vRP/get_all_bans", {}, function(rows,affected)
             if #rows > 0 then
                 for k,v in pairs(rows) do
-                    print("------------")
-                    print(v.identifier)
-                    print("------------")
                     alreadybanned[v.identifier] = true
                 end
             end
@@ -74,6 +73,7 @@ AddEventHandler("onResourceStart", function(resourcename)
             if #rows > 0 then
                 for k,v in pairs(rows) do
                     if bannedusers[v.identifier] and not alreadybanned[v.identifier] then
+                        print(v.identifier.." - "..bannedusers[v.identifier])
                         if not checkBypassIdentifier(v.identifier) and not checkBypassId(v.user_id) then
                             MySQL.execute("vRP/ban_user", {banned = true, user_id = v.user_id})
                             alreadybanned[v.identifier] = true
