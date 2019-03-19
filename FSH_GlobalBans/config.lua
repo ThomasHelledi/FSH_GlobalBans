@@ -13,7 +13,7 @@ config.globalbansql = {
 --###############--
 --    DISCORD    --
 --###############--
-config.discordwebhook = "https://discordapp.com/api/webhooks/557114376830582784/-mFh71EmxsvUz2WMDYqypoe6yueI49MmBq-ayEgCODMUqhLxueWZ2upy8C6Dtc_BhMwl"
+config.discordwebhook = ""
 
 --###############--
 -- BYPASS STEAM --
