@@ -75,7 +75,7 @@ AddEventHandler("onResourceStart", function(resourcename)
                 for k,v in pairs(rows) do
                     if bannedusers[v.identifier] and not alreadybanned[v.user_id] then
                         if not checkBypassIdentifier(v.identifier) and not checkBypassId(v.user_id) then
-                            MySQL.execute("vRP/ban_user", {banned = 1, user_id = v.user_id})
+                            MySQL.execute("vRP/ban_user", {banned = true, user_id = v.user_id})
                             alreadybanned[v.identifier] = true
                             bannedcount = bannedcount + 1
                             local dname = "FSH GLOBAL BAN"
