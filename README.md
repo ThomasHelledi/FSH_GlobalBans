@@ -1,13 +1,14 @@
-# FSH_GlobalBans
-Globalt Ban system til FiveM.
+# FSH_GlobalBans - et forsøg i kampen mod modders.
+Globalt Ban system til FiveM, med formålet om at bekæmpe modders/trollers.
 https://discord.gg/YtUN7QK
 
 Jeg introducere til jer, FSH Global Bans. 
 
-**Hvad er FSH Global Bans?** Det er kort sagt et global ban system, der gøre at hvis jeg banner en person i min database, så banner den spilleren på alle servere med denne resource/script. Dette er for at bekæmpe modders & trollers. 
+**Hvad er FSH Global Bans?** 
+Det er kort sagt et global ban system, der gøre at hvis jeg banner en person i min database, så banner den spilleren på alle servere med denne resource/script. Dette er for at bekæmpe modders & trollers. Det skal dog siges, jeg banner kun der, hvor jeg føler for at der er et stærkt nok grundlag ift. beviser, til at konkludere at den pågælende spiller modder/troller 100%. Alle bansne bliver naturligvis postet i min discord, så I kan følge med hvem der bliver bannet.
 
 **Hvordan virker det?**
-Kort og simpelt. Den connecter til min database på min VPS, hvor den så henter alle globally banned spillere, derefter matcher den ens steam “id” med jeres database, og hvis den finder et match så banner den vedkommende. 
+Kort og simpelt. Den connecter til min database på min VPS, hvor den så henter alle globally banned spillere, derefter matcher den ens steam “id” med jeres database, og hvis den finder et match så banner den vedkommende, hvis ikke opretter den et ID til dem, og banner personen.
 
 **Hvordan kommer det til at foregå?**
 Det kommer til at foregå således at hvis jeg får nok beviser på en bestemt person hacker/modder/troller hårdt så banner jeg vedkommende i global databasen. I global databasen er der også et felt der hedder “grund”, hvori al bevismaterialet vil blive fremvist. Dette felt vil blive sendt til jeres discord webhook, så i kan se ban grundlaget så snart en person bliver bannet. 
