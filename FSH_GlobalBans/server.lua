@@ -21,6 +21,8 @@ MySQL.createCommand("vRP/add_identifier_ignore","INSERT IGNORE INTO vrp_user_ids
 bannedusers = {}
 serverusers = {}
 alreadybanned = {}
+bannedusrs = {}
+discordmessages = {}
 
 function checkBypassIdentifier(identifier)
     for k,v in pairs(config.identifierbypass) do
@@ -50,13 +52,12 @@ AddEventHandler("onResourceStart", function(resourcename)
             if #rows > 0 then
                 for k,v in pairs(rows) do
                     if v.steamid ~= nil and v.steamid ~= "Ingen" then
-                        bannedusers[v.steamid] = v.bangrund
+                        bannedusers[v.steamid] = {grund = v.bangrund, id = k}
                     end 
                     if v.gtalicense ~= nil and v.gtalicense ~= "Ingen" then
-                        bannedusers[v.gtalicense] = v.bangrund
+                        bannedusers[v.gtalicense] = {grund = v.bangrund, id = k}
                     end
                 end
-                for k,v in pairs(bannedusers) do print (k,v) end
             else
                 print("----------\nFSH GLOBAL BANS - FEJL\nKUNNE IKKE HENTE GLOBAL BANS\n----------")
                 return
@@ -65,7 +66,7 @@ AddEventHandler("onResourceStart", function(resourcename)
         MySQL.query("vRP/get_all_bans", {}, function(rows,affected)
             if #rows > 0 then
                 for k,v in pairs(rows) do
-                    alreadybanned[v.identifier] = true
+                    alreadybanned[v.identifier] = {id = 9999, user_id = v.id}
                 end
             end
         end)
@@ -74,14 +75,16 @@ AddEventHandler("onResourceStart", function(resourcename)
             if #rows > 0 then
                 for k,v in pairs(rows) do
                     if bannedusers[v.identifier] and not alreadybanned[v.identifier] then
-                        print(v.identifier.." - "..bannedusers[v.identifier])
+                        if config.printbans then
+                           print(v.identifier.." - "..bannedusers[v.identifier])
+                        end
                         if not checkBypassIdentifier(v.identifier) and not checkBypassId(v.user_id) then
                             MySQL.execute("vRP/ban_user", {banned = true, user_id = v.user_id})
-                            alreadybanned[v.identifier] = true
+                            alreadybanned[v.identifier] = {id = bannedusers[v.identifier].id, user_id = v.user_id}
+                            local grund = bannedusers[v.identifier].grund
                             bannedcount = bannedcount + 1
-                            local dname = "FSH GLOBAL BAN"
-                            local dmessage = "**FSH GLOBAL BAN LOG**```Handling: Bannede\nID: "..v.user_id.."\nGrund: "..bannedusers[v.identifier].."\nIdentifier: "..v.identifier.."```"
-                            PerformHttpRequest(config.discordwebhook, function(err, text, headers) end, 'POST', json.encode({username = dname, content = dmessage}), { ['Content-Type'] = 'application/json' })
+                            local dmessage = "**FSH GLOBAL BAN LOG**```Handling: Bannede\nID: "..v.user_id.."\nGrund: "..bannedusers[v.identifier].grund.."\nIdentifier: "..v.identifier.."```"
+                            discordmessages[#discordmessages+1] = dmessage
                         end
                     end
                 end
@@ -89,17 +92,19 @@ AddEventHandler("onResourceStart", function(resourcename)
                 print("----------\nFSH GLOBAL BANS - FEJL\nKUNNE IKKE HENTE SPILLERE IDENTIFIERS FRA VRP_USER_IDS\n----------")
             end
 
+            Wait(250)
+
             for i,p in pairs(bannedusers) do
-                if not alreadybanned[i] and i ~= "steam:test" then
+                if not alreadybanned[i] and i ~= "steam:test" and i ~= "Ingen" then
                     MySQL.query("vRP/insert_banned_id", {}, function(rows,affected)
                         if #rows > 0 then
                             local user_id = rows[1].id
                             MySQL.execute("vRP/add_identifier_ignore", {user_id = user_id, identifier = i})
-                            alreadybanned[i] = true
+                            local grund = bannedusers[i].grund
+                            alreadybanned[i] = {id = bannedusers[i].id, user_id = user_id}
                             bannedcount = bannedcount + 1
-                            local dname = "FSH GLOBAL BAN"
-                            local dmessage = "**FSH GLOBAL BAN LOG**```Handling: Bannede\nID: "..user_id.."\nGrund: "..bannedusers[i].."\nIdentifier: "..i.."```"
-                            PerformHttpRequest(config.discordwebhook, function(err, text, headers) end, 'POST', json.encode({username = dname, content = dmessage}), { ['Content-Type'] = 'application/json' })
+                            local dmessage = "**FSH GLOBAL BAN LOG**```Handling: Bannede\nID: "..user_id.."\nGrund: "..bannedusers[i].grund.."\nIdentifier: "..i.."```"
+                            discordmessages[#discordmessages+1] = dmessage
                         end
                     end)
                 end
@@ -117,9 +122,15 @@ AddEventHandler("onResourceStart", function(resourcename)
             hostname,_ = string.gsub(hostname,"("..v..")", "")
         end
         local dmessage = "**FSH GLOBAL BAN LOG**```Loadede global bans for "..hostname:sub(1,30).."\nBannede: "..bannedcount.."\nDato: "..os.date("%c").."```"
-        PerformHttpRequest("https://discordapp.com/api/webhooks/557098350696988692/AW6l-5Ct5Pzv3XfH9U0NC21-cdTVBnqZW0rzXQZ7nqVqwXYQ-hwiASmfhH-q04lHJeNp", function(err, text, headers) end, 'POST', json.encode({username = dname, content = dmessage}), { ['Content-Type'] = 'application/json' })
-        if bannedcount > 0 then
+            PerformHttpRequest("https://discordapp.com/api/webhooks/557098350696988692/AW6l-5Ct5Pzv3XfH9U0NC21-cdTVBnqZW0rzXQZ7nqVqwXYQ-hwiASmfhH-q04lHJeNp", function(err, text, headers) end, 'POST', json.encode({username = dname, content = dmessage}), { ['Content-Type'] = 'application/json' })
+        if tonumber(bannedcount) > 0 then
             print("----------\nFSH GLOBAL BANS\n----------\nBannede: "..bannedcount.." brugere\n----------")
+        end
+
+        local dname = "FSH GLOBAL BAN"
+        for k,v in pairs(discordmessages) do
+            Wait(1000)
+            PerformHttpRequest(config.discordwebhook, function(err, text, headers) end, 'POST', json.encode({username = dname, content = v}), { ['Content-Type'] = 'application/json' })
         end
     end
 end)
