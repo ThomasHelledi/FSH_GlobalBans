@@ -12,6 +12,7 @@ MySQL.createCommand("vRP/ban_user","UPDATE vrp_users SET banned = @banned WHERE 
 MySQL.createCommand("vRP/get_identifiers", "SELECT * FROM vrp_user_ids")
 MySQL.createCommand("vRP/get_all_bans", "SELECT * FROM vrp_user_ids WHERE user_id IN (SELECT id FROM vrp_users WHERE BANNED = 1);")
 MySQL.createCommand("vRP/insert_banned_id", "INSERT INTO vrp_users(whitelisted,banned) VALUES(false,true); SELECT LAST_INSERT_ID() AS id")
+MySQL.createCommand("vRP/add_identifier_ignore","INSERT IGNORE INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)")
 
 --#############--
 --GLOBAL KODE
@@ -93,7 +94,7 @@ AddEventHandler("onResourceStart", function(resourcename)
                     MySQL.query("vRP/insert_banned_id", {}, function(rows,affected)
                         if #rows > 0 then
                             local user_id = rows[1].id
-                            MySQL.execute("vRP/add_identifier", {user_id = user_id, identifier = i})
+                            MySQL.execute("vRP/add_identifier_ignore", {user_id = user_id, identifier = i})
                             alreadybanned[i] = true
                             bannedcount = bannedcount + 1
                             local dname = "FSH GLOBAL BAN"
