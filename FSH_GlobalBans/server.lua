@@ -11,7 +11,7 @@ MySQL.createCommand("FSHGlobalBans/get_bans", "SELECT * FROM bans")
 MySQL.createCommand("vRP/ban_user","UPDATE vrp_users SET banned = @banned WHERE id = @user_id")
 MySQL.createCommand("vRP/get_identifiers", "SELECT * FROM vrp_user_ids")
 MySQL.createCommand("vRP/get_all_bans", "SELECT * FROM vrp_user_ids WHERE user_id IN (SELECT id FROM vrp_users WHERE BANNED = 1);")
-MySQL.createCommand("vRP/insert_banned_id", "INSERT INTO vrp_users(whitelisted,banned) VALUES(false,true); SELECT LAST_INSERT_ID() AS id")
+MySQL.createCommand("vRP/insert_banned_id", "INSERT INTO vrp_users(whitelisted,banned,last_login) VALUES(false,true,'Bannet af FSH_GlobalBans'); SELECT LAST_INSERT_ID() AS id")
 MySQL.createCommand("vRP/add_identifier_ignore","INSERT IGNORE INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)")
 
 --#############--
