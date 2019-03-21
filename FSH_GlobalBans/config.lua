@@ -16,6 +16,11 @@ config.globalbansql = {
 config.discordwebhook = ""
 
 --###############--
+-- CONSOLE PRINT --
+--###############--
+config.printbans = true
+
+--###############--
 -- BYPASS STEAM --
 --###############--
 config.identifierbypass = {
