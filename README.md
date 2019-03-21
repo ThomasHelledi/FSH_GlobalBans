@@ -1,7 +1,8 @@
 # FSH_GlobalBans - et forsøg i kampen mod modders.
 Globalt Ban system til FiveM, med formålet om at bekæmpe modders/trollers.
 
-https://discord.gg/YtUN7QK - (Kontakt mig (oMarkez) endelig hvis i har nogle spørgsmål ift. denne resource/udgivelse.
+- https://discord.gg/YtUN7QK - (Kontakt mig (oMarkez) endelig hvis i har nogle spørgsmål ift. denne resource/udgivelse.
+- Opsættelses guide: https://www.youtube.com/watch?v=5xjMSBpnqDg
 
 Jeg introducere til jer, FSH Global Bans. 
 
