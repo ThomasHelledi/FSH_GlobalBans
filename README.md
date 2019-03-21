@@ -1,5 +1,6 @@
 # FSH_GlobalBans
 Globalt Ban system til FiveM.
+https://discord.gg/YtUN7QK
 
 Jeg introducere til jer, FSH Global Bans. 
 
@@ -15,13 +16,15 @@ Det kommer til at foregå således at hvis jeg får nok beviser på en bestemt p
 I skal blot følge github linket herunder, eller direct download den vedhæftet fil. Derefter skal den ligges i resource mappen og startes i server.cfg. I FSH_GlobalBans finder i en config.lua. Her er en kort beskrivelse: _SQL_: I skal **IKKE** pille ved SQL’en, ellers kommer det ikke til at virke.
 _Discordwebhook_: Et discord web hook link, hvis i ønsker at modtage beskeder om global bans med grundlag og id.
 _Bypass_: Hvis I har nogle spillere på jeres server, som i mener er blevet uretfærdigt globally banned så kan i putte enten deres ingame ID eller steam ID ind i bypass, og så vil de ikke blive bannet.
+_PrintBans_: Hvis I gerne vil have antal bannede til at vise i consollen når i starter serveren, så sæt dette til true, ellers sæt til "false".
 
-**Andet Information** Nej, der er intet fusk i dette. server.lua er minimeret til en linje grundet besparrelse på plads & hurtigere eksekvering + at folk ikke piller ved source code for meget. Jeg uploader source code til github engang imorgen, hvis i gerne vil tage et kig på hvordan det hele hænger sammen. Jeg gentager lige igen, der er intet snyderi i dette, jeg ligger den ind på ByensRP om en lille halv time, så kan i se det er legit.
+**Andet Information**
+Nej, der er intet fusk i dette. Jeg får ikke adgang til noget som helst, i kan selv læse source code igennem. I får derimod adgang til min database, dog med select only perms :). Jeg gentager lige igen, der er intet snyderi i dette, jeg ligger den ind på ByensRP om en lille halv time, så kan i se det er legit.
 
 SQL brugeren er oprettet med select only permissions, så nej, I kan ikke gå ind og redigere i lortet (nice try tho)
 
 Har du beviser på en person modder/troller/hacker? Så send det i en privatbesked til mig og så vil jeg tage et kig på det, og hvis jeg finder der er tilstrækkelige beviser så vil vedkommende modtage et global ban.
 
-I #global-bans kan I se hvilke servere bruger FSH_GlobalBans.
+I #global-bans kan I se hvilke servere bruger FSH_GlobalBans - https://discord.gg/YtUN7QK
 
 **Jeg håber så mange muligt får brugt denne resource, da det formindsker antallet af modders drastisk!**
