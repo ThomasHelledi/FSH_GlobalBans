@@ -76,7 +76,7 @@ AddEventHandler("onResourceStart", function(resourcename)
                 for k,v in pairs(rows) do
                     if bannedusers[v.identifier] and not alreadybanned[v.identifier] then
                         if config.printbans then
-                           print(v.identifier.." - "..bannedusers[v.identifier])
+                           --print(v.identifier.." - "..bannedusers[v.identifier])
                         end
                         if not checkBypassIdentifier(v.identifier) and not checkBypassId(v.user_id) then
                             MySQL.execute("vRP/ban_user", {banned = true, user_id = v.user_id})
